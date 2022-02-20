@@ -1,89 +1,76 @@
-package verifica;
+package esercizio_libri;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class Main {
-	
-	public static String inp_str() {
-		String dato="";
-		BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            dato = kb.readLine();
-        } catch (Exception e) {
-            System.out.println("Data error.");
-        }
-
-        return dato;
-	}
-	
-	public static int inp_int() {
-		int dato=0;
-		BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            dato = Integer.valueOf(kb.readLine()).intValue();
-        } catch (Exception e) {
-            System.out.println("Data error.");
-        }
-
-        return dato;
-	}
-	
-	public static double inp_double() {
-		double dato=0.0;
-		BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
-		try {
-			dato = Double.parseDouble(kb.readLine());
-		}catch(Exception e) {
-			System.out.println("Data error.");
-		}
-		
-		return dato;
-	}
 
 	public static void main(String[] args) {
-			String dato="";
-		    InputStreamReader input = new InputStreamReader(System.in);
-		    BufferedReader tastiera = new BufferedReader (input);
-		    int variabile=0;
-
-		  try {
-			  dato = tastiera.readLine();
-			  //c.set_Diametro(Double.parseDouble(dato)); //passa direttamente il double
-		      //diametro = Double.parseDouble(dato);//traforma in double
-		    
-		        } catch(Exception e){
-		        System.out.println("errore di inserimento");
-		      };
-
-		    variabile = Integer.valueOf(dato).intValue();
-
-		  //  "nome classe" "nome oggetto" = new "nome classe" ();
-		  // esempio: Cerchio c = new Cerchio (); --> inizializza con i valori base
-		  // c = new Cerchio (raggio, area); --> se è già inizializzato
-		    
-		  // esempio: Cerchio c = new Cerchio(raggio, area); --> inizializza con valori input
-
-		  //COME USARE LE CLASSI
-		  //"nome oggetto"."nome metodo"(parametri se necessario)
-		  //"nome oggetto."nome attributo" = 5; --> solo se è PUBLIC
-		  //NEL CASO DI UN OGGETTO IN UN VETTORE: nome oggetto[i].metodo/attributo(parametro);
-		  
-		  //VETTORE DI OGGETTI DI TIPO CLASSE
-		  //"nome classe"[] "nome oggetto" = new "nome classe"["dimensione"];
-
-		  //NEL CASO DI ATTRIBUTI PRIVATE
-		  // implementare funzioni get e set nella classe
-		  //i metodi li richiami normalmente, mentre per stampare valori o inizializzarli devo usare get e set
-		  // nome oggetto.setVariabile(variabile);
-		  // nome oggetto.getVariabile();
-
-		  //SINTASSI COSTRUTTORI, METODI E ATTRIBUTI
-		  // public "nome classe" (parametri a cui cambi i nomi){}
-		  // public tipo (void, int, float, double, char) nomeMetodo(eventuali parametri){}
-		  // public/private tipo(void, int, float, double, char) attributo
-		  
-		  }
-	}
+		int n_libri=0, numero=0, prezzo=0;
+		String nome="", categoria="",dato="";
+		Libri li[];
+		
+		
+	    InputStreamReader input = new InputStreamReader(System.in);
+	    BufferedReader tastiera= new BufferedReader (input);
+		
+		try {
+			System.out.println("Inserire il numero di libri presi: ");
+			dato = tastiera.readLine();
+			n_libri = Integer.valueOf(dato).intValue();
+		}catch(Exception e) {}
+		
+		li = new Libri[n_libri];
+		
+		for(int i=0;i<n_libri;i++) {
+			try{
+				System.out.println("Inserire il nome del libro n."+(1+i)+" : ");
+				nome = tastiera.readLine();
+				System.out.println("Inserire il numero del libro n."+(1+i)+" : ");
+				dato = tastiera.readLine();
+				numero = Integer.valueOf(dato).intValue();
+				System.out.println("Inserire la categoria del libro n."+(1+i)+" : ");
+				categoria = tastiera.readLine();
+				System.out.println("Inserire il prezzo del libro n."+(1+i)+" : ");
+				dato = tastiera.readLine();
+				prezzo = Integer.valueOf(dato).intValue();
+			}catch(Exception e) {}
+			li[i] = new Libri(nome,numero,categoria,prezzo);
+		}
 	
+		String tmp_n="",tmp_c="";
+		int tmp_num=0,tmp_p=0;
+		
+		for (int i=0;i<n_libri;i++) {
+			for(int j=0;j<n_libri-1-i;j++) {
+				if(li[j].prezzo>li[j+1].prezzo) {
+					tmp_n = li[j].nome;
+					tmp_num = li[j].numero;
+					tmp_c = li[j].categoria;
+					tmp_p = li[j].prezzo;
+					
+					li[j].nome = li[j+1].nome;
+					li[j].numero = li[j+1].numero;
+					li[j].categoria = li[j+1].categoria;
+					li[j].prezzo = li[j+1].prezzo;
+					
+					li[j+1].nome = tmp_n;
+					li[j+1].numero = tmp_num;
+					li[j+1].categoria = tmp_c;
+					li[j+1].prezzo = tmp_p;
+				}
+			}
+		}
+		System.out.println("I libri ordinati per prezzo: ");
+		for(int i=0;i<n_libri;i++) {
+			System.out.println(li[i].nome);
+			System.out.println(li[i].numero);
+			System.out.println(li[i].categoria);
+			System.out.println(li[i].prezzo);
+			System.out.println();
+		}
+		
+		
+	}
 
-
+}
